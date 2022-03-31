@@ -1,0 +1,117 @@
+<div class="row">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header bg-info">
+        <div class='upper text-center'>Theme</div>
+      </div>
+      <div class="card-title">
+        <div id="returnedMsg"></div>
+      </div>
+      <div class="card-body">
+        <form action="/settings" method="POST" id="settingsForm">
+          <div class="form-group">
+            <label for="color" class="form-label">Navbar Color</label>
+            <select name="color" id="color" class="form-control form-control-sm">
+                <option value="bg-secondary" <%- user.settings.navbarbgcolor == 'bg-secondary' ? 'selected': ''%>>Gray</option>
+                <option value="bg-info"<%- user.settings.navbarbgcolor == 'bg-info' ? 'selected': ''%>>Light Blue</option>
+                <option value="bg-primary" <%- user.settings.navbarbgcolor == 'bg-primary' ? 'selected': ''%>>Purple</option>
+                <option value="bg-success" <%- user.settings.navbarbgcolor == 'bg-success' ? 'selected': ''%>>Green</option>
+                <option value="bg-danger" <%- user.settings.navbarbgcolor == 'bg-danger' ? 'selected': ''%>>Red</option>
+                <option value="bg-warning" <%- user.settings.navbarbgcolor == 'bg-warning' ? 'selected': ''%>>Yellow</option>
+                <option value="bg-dark" <%- user.settings.navbarbgcolor == 'bg-dark' ? 'selected': ''%>>Black</option>
+                <option value="bg-light" <%- user.settings.navbarbgcolor == 'bg-light' ? 'selected': ''%>>White</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="textcolor" class="form-label">Navbar Text Color</label>
+            <select name="textcolor" id="textcolor" class="form-control form-control-sm">
+                  <option value="navbar-dark" <%- user.settings.navbarcolor == 'navbar-dark' ? 'selected': ''%>>Light Text</option>
+                  <option value="navbar-light" <%- user.settings.navbarcolor == 'navbar-light' ? 'selected': ''%>>Dark Text</option>
+              </select>
+          </div>
+          <div class="form-group">
+            <label for="sidebarcolor" class="form-label">Sidebar Color</label>
+            <select name="sidebarcolor" id="sidebarcolor" class="form-control form-control-sm">
+                  <option value="sb-sidenav-light" <%- user.settings.sidebarcolor == 'sb-sidenav-light' ? 'selected': ''%>>Light</option>
+                  <option value="sb-sidenav-dark"  <%- user.settings.sidebarcolor == 'sb-sidenav-dark' ? 'selected': ''%>>Dark</option>
+              </select>
+          </div>
+          <div class="form-group">
+            <input type="submit" value="Save Settings">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+
+  </div>
+</div>
+
+<script>
+  const nav = document.querySelector('.sb-topnav');
+  const sidebarcolor = document.getElementById('sidenavAccordion')
+
+  document.getElementById('color').addEventListener('change', (e) => {
+    nav.classList.forEach(cl => {
+      if (cl.indexOf('bg-') > -1) {
+        // alert(cl)
+        nav.classList.remove(cl)
+        nav.classList.add(e.target.value)
+      }
+    })
+  })
+  document.getElementById('textcolor').addEventListener('change', (e) => {
+    switch (e.target.value) {
+      case "navbar-dark":
+        nav.classList.remove('navbar-light')
+        nav.classList.add('navbar-dark')
+        break;
+      case "navbar-light":
+        nav.classList.remove('navbar-dark')
+        nav.classList.add('navbar-light')
+        break;
+
+    }
+  })
+  document.getElementById('sidebarcolor').addEventListener('change', (e) => {
+    switch (e.target.value) {
+      case "sb-sidenav-dark":
+        sidebarcolor.classList.remove('sb-sidenav-light')
+        sidebarcolor.classList.add('sb-sidenav-dark')
+        break;
+      case "sb-sidenav-light":
+
+        sidebarcolor.classList.remove('sb-sidenav-dark')
+        sidebarcolor.classList.add('sb-sidenav-light')
+        break;
+
+    }
+  })
+  document.getElementById('settingsForm').addEventListener('submit', (e) => {
+    e.preventDefault()
+    const formData = new FormData(e.target)
+    const settingsData = {
+      navbarbgcolor: formData.get('color'),
+      navbarcolor: formData.get('textcolor'),
+      sidebarcolor: formData.get('sidebarcolor')
+    }
+    SubmitForm(settingsData, e.target.action)
+  })
+
+  function SubmitForm(data, action) {
+
+    $.ajax({
+      url: action,
+      type: 'POST',
+      data: data,
+      success: function(data, textStatus, jqXHR) {
+
+        $('#returnedMsg').html(data)
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        alert("Error");
+      }
+    });
+  }
+</script>

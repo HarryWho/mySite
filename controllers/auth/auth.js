@@ -1,23 +1,34 @@
 const express = require('express');
 const router = express.Router();
-const { RegisterFormValidations } = require('../../middleware/RegisterFormValidation')
-router.get('/', (req, res) => {
+const passport = require('passport');
+const passportLocal = require('../../config/passportLocal')
+const { RegisterFormValidations, SaveUser } = require('../../middleware/RegisterFormValidation')
+const { ensureGuest, ensureUser } = require('../../middleware/auth')
+
+router.get('/', ensureGuest, (req, res) => {
   res.render('auth/login')
 })
 
-router.get('/register', (req, res) => {
+router.get('/register', ensureGuest, (req, res) => {
   res.render('auth/register')
 })
-router.post('/', (req, res) => {
 
-})
+router.post('/',
+  passport.authenticate('local', { failureRedirect: '/auth' }),
+  function(req, res) {
+    res.redirect('/dashboard');
+  });
 
-router.post('/register', (req, res) => {
+
+router.post('/register', ensureGuest, (req, res) => {
   let errors = []
   console.log(req.body)
+
   RegisterFormValidations(req.body, (errors) => {
     if (errors.length > 0) res.render('auth/register', { errors: errors, field: req.body })
-    console.log('Passed Validation')
+    SaveUser(req.body, (user) => {
+      res.redirect('/auth')
+    })
   })
 })
 

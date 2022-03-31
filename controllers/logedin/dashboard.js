@@ -2,12 +2,10 @@ const express = require('express');
 const { append } = require('express/lib/response');
 const router = express.Router();
 
-
 router.get('/', (req, res) => {
-  res.redirect('/auth')
+  console.log(req.user)
+  res.render('logedin/dashboard', { user: req.user })
 })
-router.get('/logout', (req, res) => {
-  req.logout()
-  res.redirect('/')
-})
-module.exports = router
+
+
+module.exports = router;

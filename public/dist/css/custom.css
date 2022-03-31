@@ -1,0 +1,50 @@
+.sb-sidenav-mini .sb-sidenav-toggled #layoutSidenav #layoutSidenav_nav {
+  transform: translateX(20px);
+}
+
+.sb-sidenav-mini .sb-sidenav-toggled #layoutSidenav {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 20;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  z-index: 1037;
+  opacity: 0.5;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.sb-sidenav-mini .sb-sidenav-toggled #layoutSidenav #layoutSidenav_content:before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 20;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  z-index: 1037;
+  opacity: 0.5;
+  transition: opacity 0.3s ease-in-out;
+}
+
+@media (min-width: 992px) {
+  .sb-sidenav-mini #layoutSidenav #layoutSidenav_nav {
+    width: 50px;
+  }
+  .sb-sidenav-mini #layoutSidenav #layoutSidenav_content {
+    margin-left: 0;
+    transition: margin 0.15s ease-in-out;
+  }
+  .sb-sidenav-mini .sb-sidenav-toggled #layoutSidenav #layoutSidenav_nav {
+    transform: translateX(-20px);
+  }
+  .sb-sidenav-mini .sb-sidenav-toggled #layoutSidenav #layoutSidenav_content {
+    margin-left: -20px;
+  }
+  .sb-sidenav-mini .sb-sidenav-toggled #layoutSidenav #layoutSidenav_content:before {
+    display: block;
+  }
+}
