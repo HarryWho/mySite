@@ -1,10 +1,11 @@
 const express = require('express');
-const { append } = require('express/lib/response');
+const Articles = require('../../models/ArticleModel')
 const router = express.Router();
 
-router.get('/', (req, res) => {
-  console.log(req.user)
-  res.render('logedin/dashboard', { user: req.user })
+router.get('/', async(req, res) => {
+  const articles = await Articles.find();
+
+  res.render('logedin/dashboard', { user: req.user, articles: articles })
 })
 
 

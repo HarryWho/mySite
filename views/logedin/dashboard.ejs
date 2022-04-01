@@ -36,3 +36,51 @@
     </div>
   </div>
 </div>
+<div class="row">
+  <div class="col-md-6">
+    <div class="card position-relative">
+      <div class="card-header bg-success">
+        <div class="position-absolute top-0 end-0 translate-middle"><a href="/article" class="btn btn-sm btn-info shadow rounded-circle text-dark" title="Create New Article"><i class="fa fa-plus-circle" aria-hidden="true"></i></a></div>
+        <h5 class=" text-dark card-title">Blog Articles</h5>
+
+      </div>
+      <div class="card-body">
+        <% if(typeof articles!='undefined'&& articles.length>0){%>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Date</th>
+                <th scope="col">Status</th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <% articles.forEach(article=>{%>
+                <tr>
+                  <td>
+                    <%=article.title%>
+                  </td>
+                  <td>
+                    <%- dateFormat(article.date, 'MMMM Do YYYY')%>
+                  </td>
+                  <td>
+                    <%=article.status%>
+                  </td>
+                  <td><a href="/article/edit/<%=article._id%>"><i class="fa-solid fa-pen-to-square"></i></a></td>
+                  <td><a href="/article/delete/<%=article._id%>"><i class="fa-solid fa-trash-can"></i></a></td>
+                </tr>
+                <%})%>
+            </tbody>
+          </table>
+          <%}else{%>
+            <p class="card-text">You dont have any articles</p>
+            <%}%>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+
+  </div>
+</div>

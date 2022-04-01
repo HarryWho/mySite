@@ -6,9 +6,12 @@ const passport = require('passport')
 const config = require('dotenv')
 const { ConnectDB } = require('./config/ConnectMongo')
 const MongoStore = require('connect-mongo');
+const methodOverride = require('method-override')
 config.config({ path: './config/config.env' })
 
 const app = express()
+
+app.use(methodOverride('_method'))
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static('public'))
@@ -28,6 +31,12 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+const { dateFormat } = require('./middleware/format')
+app.use((req, res, next) => {
+  res.locals.dateFormat = dateFormat;
+
+  next()
+})
 
 // Routes
 const homeRoute = require('./controllers/auth/home')
@@ -39,6 +48,7 @@ app.use('/', homeRoute)
 app.use('/auth', authRoute)
 app.use('/dashboard', ensureUser, dashboardRoute)
 app.use('/settings', ensureUser, require('./controllers/logedin/settings/settings'))
+app.use('/article', ensureUser, require('./controllers/logedin/article/article'))
 
 
 // start Mongo
