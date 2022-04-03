@@ -11,25 +11,22 @@
     </div>
   </form> -->
   <!-- Navbar-->
-  <ul class="navbar-nav ms-auto me-0 me-md-3 my-2 my-md-0">
 
-
-  </ul>
   <ul class="navbar-nav ms-auto me-0 me-md-3 my-2 my-md-0">
     <% if( typeof user!='undefined'){%>
       <div class="nav-item dropdown" id="notifyBanner">
         <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"><i class="fa-solid fa-bell"></i></a>
-        <ul class="dropdown-menu dropdown-menu-end <%- typeof user!='undefined' ? user.settings.navbarbgcolor: ''%>" width="600px">
-          <div class="form-control" width="600px">
-            <li class="menu-heading mx-2">3 New Notifications</li>
-            <li><a href="#" class="dropdown-item"><i class="fa fa-users text-primary" aria-hidden="true"></i> Calvin has sent you a friends request</a></li>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <!-- <div class="form-control" width="600px "> -->
+          <li class="menu-heading mx-2 ">3 New Notifications</li>
+          <li><a href="#" class="dropdown-item"><i class="fa fa-users text-primary" aria-hidden="true "></i> Calvin has sent you a friends request</a></li>
 
-          </div>
+          <!-- </div> -->
         </ul>
       </div>
       <%}%>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false ">
+          <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <% if(typeof user!='undefined'){%>
               <img src="<%=user.image %>" alt="user image" width="20px" class="rounded-circle">
               <%}else{%>

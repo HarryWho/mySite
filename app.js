@@ -8,8 +8,12 @@ const { ConnectDB } = require('./config/ConnectMongo')
 const MongoStore = require('connect-mongo');
 const methodOverride = require('method-override')
 config.config({ path: './config/config.env' })
-
 const app = express()
+const http = require('http')
+const server = http.createServer(app)
+
+const { Server } = require('socket.io')
+const io = new Server(server)
 
 app.use(methodOverride('_method'))
 
@@ -34,9 +38,15 @@ app.use(passport.session());
 const { dateFormat } = require('./middleware/format')
 app.use((req, res, next) => {
   res.locals.dateFormat = dateFormat;
+  io.on('connection', (socket) => {
+    socket.name = req.user.displayName
+    socket.emit('newconnection', socket.name)
 
+
+  })
   next()
 })
+
 
 // Routes
 const homeRoute = require('./controllers/auth/home')
@@ -55,6 +65,6 @@ app.use('/article', ensureUser, require('./controllers/logedin/article/article')
 ConnectDB()
 
 // start server
-app.listen(process.env.PORT, () => {
+server.listen(process.env.PORT, () => {
   console.log(`Server running on port ${process.env.PORT}`)
 })
